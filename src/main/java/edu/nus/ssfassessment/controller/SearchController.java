@@ -1,7 +1,5 @@
 package edu.nus.ssfassessment.controller;
 
-
-import edu.nus.ssfassessment.config.AppConfig;
 import edu.nus.ssfassessment.model.Book;
 import edu.nus.ssfassessment.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,13 +21,13 @@ public class SearchController {
     @GetMapping("/result")
     public String getResult(Model model, @RequestParam("title")String title) throws IOException {
         logger.info("Books found>>>>   %s".formatted(String.valueOf(bookService.search(title).size())));
-        for (Book book : bookService.search(title)){
-            logger.info("Books works_id>>  "+ book.getId());
-        }
 
         if (bookService.search(title).size() == 0){
             model.addAttribute("info",
                     "No book found in the library, please try other titles");
+        }
+        if (bookService.search(title).size() ==20){
+            model.addAttribute("info", "<more results, not shown>");
         }
         model.addAttribute("searchTitle", title.toLowerCase());
         model.addAttribute("books", bookService.search(title));

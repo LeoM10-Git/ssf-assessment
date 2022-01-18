@@ -54,6 +54,8 @@ public class AppConfig {
         RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
         redisTemplate.setConnectionFactory(jedisFac);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setHashKeySerializer(new Jackson2JsonRedisSerializer<>(Object.class));
         Jackson2JsonRedisSerializer<Object> jrs = new Jackson2JsonRedisSerializer<>(Object.class);
         redisTemplate.setValueSerializer(jrs);
 

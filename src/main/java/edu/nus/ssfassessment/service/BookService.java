@@ -1,12 +1,13 @@
 package edu.nus.ssfassessment.service;
 
-import edu.nus.ssfassessment.config.AppConfig;
 import edu.nus.ssfassessment.exception.ApiRequestException;
 import edu.nus.ssfassessment.model.Book;
+import edu.nus.ssfassessment.repository.BookRepository;
 import jakarta.json.Json;
 import jakarta.json.JsonArray;
 import jakarta.json.JsonObject;
 import jakarta.json.JsonReader;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
@@ -18,6 +19,7 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.Optional;
 import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
@@ -27,6 +29,9 @@ import static edu.nus.ssfassessment.Constants.*;
 public class BookService {
 
     private final Logger logger = Logger.getLogger(BookService.class.getName());
+    @Autowired
+    private BookRepository bookRepository;
+
 
     public List<Book> search(String title) throws IOException {
         RestTemplate restTemplate = new RestTemplate();
@@ -66,7 +71,17 @@ public class BookService {
             final JsonReader reader = Json.createReader(is);
             final JsonObject result = reader.readObject();
 
-            return Book.bookDetails(result);
+            return Book.bookDetails(result, id);
         }
     }
+
+    public void saveBook(Book book){
+        bookRepository.save(book);
+    }
+
+    public Optional<Book> getBook(String id){
+        Optional<Book> book= bookRepository.get(id);
+        return book;
+    }
+
 }

@@ -1,8 +1,16 @@
 package edu.nus.ssfassessment.model;
 
 import jakarta.json.JsonObject;
+import org.springframework.data.redis.core.RedisHash;
 
-public class Book {
+import java.io.Serial;
+import java.io.Serializable;
+
+@RedisHash("Book")
+public class Book implements Serializable {
+    @Serial
+    private static final long serialVersionUID = 1L;
+
     private String key;
     private String id;
     private String title;
@@ -12,9 +20,6 @@ public class Book {
 
     public Book() {
     }
-
-
-
 
     public Book(String key, String id , String title, String cover, String description, String excerpt) {
         this.key = key;
@@ -78,24 +83,37 @@ public class Book {
         book.setTitle(object.getString("title"));
         book.setKey(object.getString("key"));
         book.setId(object.getString("key").replace("/works/", ""));
-        if (object.containsKey("title") )
-            book.setTitle(object.getString("title"));
-        if (object.containsKey("key"))
-            book.setKey(object.getString("key"));
 
         return book;
     }
 
 
-    public static Book bookDetails(JsonObject object) {
+    public static Book bookDetails(JsonObject object, String id) {
         Book detailedBook = new Book();
-        detailedBook.setTitle(object.getString("title"));
-        detailedBook.setDescription(object.getString("description"));
-        detailedBook.setExcerpt(object.getJsonArray("excerpts")
-                .getJsonObject(0)
-                .getString("excerpt"));
-        detailedBook.setCover(object.getJsonArray("covers").get(0).toString());
-        return detailedBook;
+        if (object.containsKey("title")){
+            detailedBook.setTitle(object.getString("title"));
+        }else{
+            detailedBook.setTitle("No Available");
+        }
+        if (object.containsKey("description")) {
+            detailedBook.setDescription(object.getString("description"));
+        }else{
+            detailedBook.setDescription("No description available");
+        }
+        if (object.containsKey("excerpts")){
+            detailedBook.setExcerpt(object.getJsonArray("excerpts")
+                    .getJsonObject(0)
+                    .getString("excerpt"));
+        }else{
+            detailedBook.setExcerpt("No excerpt available");
+        }
+        if (object.containsKey("covers")){
+            detailedBook.setCover(object.getJsonArray("covers").get(0).toString());
+        }else{
+            detailedBook.setCover("NO");
+        }
 
+        detailedBook.setId(id);
+        return detailedBook;
     }
 }

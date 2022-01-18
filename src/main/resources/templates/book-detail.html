@@ -16,7 +16,8 @@
             <h1>Book Details</h1>
             <div class="row">
                 <div class = "col-sm-4 pull-left">
-                    <img th:src="${coverUrl}" alt="cover" class="cover-image">
+                    <img th:if="${coverUrl == 'NO'}" th:src="@{/image/NoCover.png}" alt="cover" class="cover-image">
+                    <img th:unless="${coverUrl == 'NO'}" th:src="@{${coverUrl}}" alt="cover" class="cover-image">
                 </div>
                 <div class="text col-sm-8">
                     <h3 class="p-head">Title:</h3>
@@ -25,6 +26,8 @@
                         <p th:text="${description}"></p>
                     <h3 class="p-head">Excerpt:</h3>
                         <p th:text="${excerpt}"></p>
+                    <h3 class="p-head" th:if="${cached}">Cached:</h3>
+                        <p th:if="${cached}" th:text="${cached}"></p>
                 </div>
             </div>
 
