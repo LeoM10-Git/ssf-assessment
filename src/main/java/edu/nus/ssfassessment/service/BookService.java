@@ -18,6 +18,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -47,7 +48,7 @@ public class BookService {
         if (response.getStatusCode() != HttpStatus.OK) {
             throw new ApiRequestException("No found from OpenLibrary API");
         }
-        try (InputStream is = new ByteArrayInputStream(response.getBody().getBytes())) {
+        try (InputStream is = new ByteArrayInputStream(response.getBody().getBytes(StandardCharsets.UTF_8))) {
             final JsonReader reader = Json.createReader(is);
             final JsonObject result = reader.readObject();
             final JsonArray docs = result.getJsonArray("docs");
@@ -67,7 +68,7 @@ public class BookService {
             throw new ApiRequestException("No found from OpenLibrary API");
         }
 
-        try (InputStream is = new ByteArrayInputStream(resp.getBody().getBytes())) {
+        try (InputStream is = new ByteArrayInputStream(resp.getBody().getBytes(StandardCharsets.UTF_8))) {
             final JsonReader reader = Json.createReader(is);
             final JsonObject result = reader.readObject();
 

@@ -5,6 +5,7 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
+import java.util.concurrent.TimeUnit;
 
 @Repository
 public class BookRepository {
@@ -17,6 +18,7 @@ public class BookRepository {
 
     public void save(Book book){
         redisTemplate.opsForHash().put(HASH_KEY, book.getId(), book);
+        redisTemplate.expire(HASH_KEY, 10L, TimeUnit.MINUTES);
     }
 
     public Optional<Book> get(String id){
