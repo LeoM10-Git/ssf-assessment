@@ -2,3 +2,13 @@
     color: aqua;
 
 }
+
+.cover-image{
+    width: 100%;
+    margin: 0 ;
+    clear:left;
+}
+.text {
+    float: right;
+    margin: 0 ;
+}

@@ -33,6 +33,8 @@ public class SearchController {
         }
         model.addAttribute("searchTitle", title.toLowerCase());
         model.addAttribute("books", bookService.search(title));
+
+
         return "search-result";
     }
 

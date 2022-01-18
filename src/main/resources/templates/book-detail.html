@@ -12,17 +12,27 @@
     <link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
-    <h1>Book Details</h1>
-    <div>
-        <p>Title: <span th:text="${title}"></span></p>
-        <p>Description: <span th:text="${description}"></span></p>
-        <p>Excerpt: <span th:text="${excerpt}"></span></p>
-    </div>
+        <div class="container mt-3">
+            <h1>Book Details</h1>
+            <div class="row">
+                <div class = "col-sm-4 pull-left">
+                    <img th:src="${coverUrl}" alt="cover" class="cover-image">
+                </div>
+                <div class="text col-sm-8">
+                    <h3 class="p-head">Title:</h3>
+                        <p th:text="${title}"></p>
+                    <h3 class="p-head">Description:</h3>
+                        <p th:text="${description}"></p>
+                    <h3 class="p-head">Excerpt:</h3>
+                        <p th:text="${excerpt}"></p>
+                </div>
+            </div>
 
 
 
-    <div class="d-flex offset-md-3 mt-2">
-        <a th:href="@{/}" class="btn btn-dark"> Back </a>
-    </div>
+            <div class=" row mt-2">
+                <a th:href="@{/}" class="btn btn-info"> Back to Search </a>
+            </div>
+        </div>
 </body>
 </html>
