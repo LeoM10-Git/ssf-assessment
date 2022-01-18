@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Books</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+          rel="stylesheet"
+          integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+          crossorigin="anonymous">
+
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+    <div class="container">
+        <div class="text-center">
+            <h1 class="text-center">Search result for <span class="search-title" th:text="${searchTitle}"></span></h1>
+        </div>
+    </div>
+    <div class="d-flex offset-md-3 mt-2" th:if = "${!#lists.isEmpty(books)}">
+        <ol>
+            <li th:each="book: ${books}">
+                <a th:href="@{'book/' + ${book.id}}"
+                   th:text="${book.title}">
+                </a>
+            </li>
+        </ol>
+    </div>
+
+    <div class="d-flex offset-md-3 mt-2" >
+        <h2  th:text="${info}"></h2>
+    </div>
+
+    <div class="d-flex offset-md-3 mt-2">
+        <a th:href="@{/}" class="btn btn-dark"> Back </a>
+    </div>
+</body>
+</html>
